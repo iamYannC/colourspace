@@ -8,3 +8,4 @@
 ^dev$
 ^renv$
 ^example function oklch$
+^pkgdown$
