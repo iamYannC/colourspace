@@ -8,3 +8,14 @@
 hex_to_rgb <- function(hex) {
   convert(hex, from = "hex", to = "rgb")
 }
+
+#' Convert RGB to HEX
+#'
+#' @param rgb Numeric vector/matrix of RGB values (0-255).
+#' @return Character vector of hex colours.
+#' @examples
+#' rgb_to_hex(c(51, 102, 153))
+#' @export
+rgb_to_hex <- function(rgb) {
+  convert(rgb, from = "rgb", to = "hex")
+}

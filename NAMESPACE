@@ -2,6 +2,7 @@
 
 export(convert)
 export(hex_to_rgb)
+export(rgb_to_hex)
 importFrom(farver,convert_colour)
 importFrom(farver,decode_colour)
 importFrom(farver,encode_colour)
