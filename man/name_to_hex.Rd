@@ -4,10 +4,12 @@
 \alias{name_to_hex}
 \title{Convert colour name to HEX}
 \usage{
-name_to_hex(name)
+name_to_hex(name, ...)
 }
 \arguments{
 \item{name}{Character vector of colour names (case-insensitive).}
+
+\item{...}{Additional options passed to \code{\link[=convert]{convert()}}.}
 }
 \value{
 Character vector of hex colours.
@@ -17,5 +19,5 @@ Looks up CSS-style colour names from the bundled meodai list and returns hex
 values.
 }
 \examples{
-name_to_hex(\"100 Mph\")
+name_to_hex("100 Mph")
 }

@@ -4,7 +4,14 @@
 \alias{convert}
 \title{Convert between colour spaces}
 \usage{
-convert(value, from, to)
+convert(
+  value,
+  from,
+  to,
+  fallback = c("none", "nearest"),
+  distance = c("lab", "oklch", "rgb", "hsl"),
+  ...
+)
 }
 \arguments{
 \item{value}{Colour input. For \code{from = "hex"} or \code{from = "name"}, a
@@ -16,14 +23,29 @@ list of such vectors.}
 \code{"oklch"}, or \code{"name"}.}
 
 \item{to}{Target colour space. One of \code{"hex"}, \code{"rgb"}, \code{"hsl"},
-\code{"oklch"}.}
+\code{"oklch"}, or \code{"name"} (reverse lookup).}
+
+\item{fallback}{Optional behaviour when mapping \code{to = "name"} and no exact
+hex/name match is found. Use \code{"none"} (default) to return \code{NA} for unknown
+colours or \code{"nearest"} to return the closest named colour using
+\code{distance}. A warning is issued when fallback is used.}
+
+\item{distance}{Distance metric for nearest-colour fallback: one of
+\code{"lab"} (default), \code{"oklch"}, \code{"rgb"}, or \code{"hsl"}.}
+
+\item{...}{Additional arguments passed through by wrapper helpers.}
 }
 \value{
-For scalar inputs, a named numeric vector (or hex string). For
-vectorised inputs, a matrix with one row per input colour.
+For scalar inputs, a named numeric vector (or hex string or colour
+name). For vectorised inputs, a matrix with one row per input colour or a
+character vector for \code{to = "name"}.
 }
 \description{
 Convert between colour spaces
+}
+\details{
+All conversions and nearest-colour calculations are powered by the
+\pkg{farver} package.
 }
 \examples{
 convert("#ff0000", from = "hex", to = "rgb")

@@ -4,10 +4,12 @@
 \alias{hsl_to_hex}
 \title{Convert HSL to HEX}
 \usage{
-hsl_to_hex(hsl)
+hsl_to_hex(hsl, ...)
 }
 \arguments{
 \item{hsl}{Numeric vector/matrix of HSL values (h: 0-360, s/l: 0-100).}
+
+\item{...}{Additional options passed to \code{\link[=convert]{convert()}}.}
 }
 \value{
 Character vector of hex colours.

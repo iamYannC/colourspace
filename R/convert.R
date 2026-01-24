@@ -7,18 +7,31 @@
 #' @param from Source colour space. One of `"hex"`, `"rgb"`, `"hsl"`,
 #'   `"oklch"`, or `"name"`.
 #' @param to Target colour space. One of `"hex"`, `"rgb"`, `"hsl"`,
-#'   `"oklch"`.
-#' @return For scalar inputs, a named numeric vector (or hex string). For
-#'   vectorised inputs, a matrix with one row per input colour.
+#'   `"oklch"`, or `"name"` (reverse lookup).
+#' @param fallback Optional behaviour when mapping `to = "name"` and no exact
+#'   hex/name match is found. Use `"none"` (default) to return `NA` for unknown
+#'   colours or `"nearest"` to return the closest named colour using
+#'   `distance`. A warning is issued when fallback is used.
+#' @param distance Distance metric for nearest-colour fallback: one of
+#'   `"lab"` (default), `"oklch"`, `"rgb"`, or `"hsl"`.
+#' @param ... Additional arguments passed through by wrapper helpers.
+#' @return For scalar inputs, a named numeric vector (or hex string or colour
+#'   name). For vectorised inputs, a matrix with one row per input colour or a
+#'   character vector for `to = "name"`.
+#' @details All conversions and nearest-colour calculations are powered by the
+#'   \pkg{farver} package.
 #' @importFrom farver decode_colour encode_colour convert_colour
 #' @examples
 #' convert("#ff0000", from = "hex", to = "rgb")
 #' convert(c(255, 255, 0), from = "rgb", to = "hex")
 #' convert(c("#ff0000", "#00ff00"), from = "hex", to = "oklch")
 #' @export
-convert <- function(value, from, to) {
+convert <- function(value, from, to, fallback = c("none", "nearest"),
+                    distance = c("lab", "oklch", "rgb", "hsl"), ...) {
   from <- match_space(from, allow_name = TRUE)
-  to <- match_space(to, allow_name = FALSE)
+  to <- match_space(to, allow_name = TRUE)
+  fallback <- match_fallback(fallback)
+  distance <- match.arg(distance)
 
   if (identical(from, to)) {
     return(value)
@@ -29,7 +42,13 @@ convert <- function(value, from, to) {
     if (to == "hex") {
       return(hex)
     }
-    return(convert(hex, from = "hex", to = to))
+    return(convert(hex, from = "hex", to = to, fallback = fallback, distance = distance))
+  }
+
+  if (to == "name") {
+    # Convert anything to hex first, then map to names (with optional fallback)
+    hex <- if (from == "hex") normalize_hex(value) else convert(value, from = from, to = "hex", fallback = "none", distance = distance)
+    return(hex_to_name_with_fallback(hex, fallback = fallback, distance = distance))
   }
 
   if (from == "hex") {
@@ -124,4 +143,12 @@ format_colour_result <- function(mat, space) {
     return(drop(mat[1, ]))
   }
   mat
+}
+
+match_fallback <- function(x) {
+  if (is.logical(x)) {
+    x <- if (isTRUE(x)) "nearest" else "none"
+  }
+  x <- match.arg(tolower(x), c("none", "nearest"))
+  x
 }

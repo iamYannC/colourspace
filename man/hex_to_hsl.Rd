@@ -4,10 +4,12 @@
 \alias{hex_to_hsl}
 \title{Convert HEX to HSL}
 \usage{
-hex_to_hsl(hex)
+hex_to_hsl(hex, ...)
 }
 \arguments{
 \item{hex}{Character vector of hex colour strings.}
+
+\item{...}{Additional options passed to \code{\link[=convert]{convert()}}.}
 }
 \value{
 Numeric vector (length 3) or matrix with columns \code{h}, \code{s}, \code{l}.
