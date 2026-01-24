@@ -1,0 +1,10 @@
+^LICENSE\.md$
+^data-raw$
+^pkgdown\.yml$
+^_pkgdown\.yml$
+^docs$
+^\.github$
+^README\.Rmd$
+^dev$
+^renv$
+^example function oklch$

@@ -1,0 +1,12 @@
+.Rproj.user
+.Rhistory
+.RData
+.Ruserdata
+.httr-oauth
+.DS_Store
+inst/doc
+.vscode
+.idea
+*.tar.gz
+*.Rcheck/
+docs/
