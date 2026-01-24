@@ -63,3 +63,16 @@ hex_to_oklch <- function(hex) {
 oklch_to_hex <- function(oklch) {
   convert(oklch, from = "oklch", to = "hex")
 }
+
+#' Convert colour name to HEX
+#'
+#' Looks up CSS-style colour names from the bundled meodai list and returns hex
+#' values.
+#' @param name Character vector of colour names (case-insensitive).
+#' @return Character vector of hex colours.
+#' @examples
+#' name_to_hex(\"100 Mph\")
+#' @export
+name_to_hex <- function(name) {
+  convert(name, from = "name", to = "hex")
+}
