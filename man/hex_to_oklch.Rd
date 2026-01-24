@@ -16,5 +16,5 @@ Numeric vector (length 3) or matrix with columns \code{l}, \code{c}, \code{h}.
 Convert HEX to OKLCH
 }
 \examples{
-hex_to_oklch(\"#ff0000\")
+hex_to_oklch("#ff0000")
 }
