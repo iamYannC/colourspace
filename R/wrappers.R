@@ -19,3 +19,14 @@ hex_to_rgb <- function(hex) {
 rgb_to_hex <- function(rgb) {
   convert(rgb, from = "rgb", to = "hex")
 }
+
+#' Convert HEX to HSL
+#'
+#' @param hex Character vector of hex colour strings.
+#' @return Numeric vector (length 3) or matrix with columns `h`, `s`, `l`.
+#' @examples
+#' hex_to_hsl("#336699")
+#' @export
+hex_to_hsl <- function(hex) {
+  convert(hex, from = "hex", to = "hsl")
+}
