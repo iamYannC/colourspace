@@ -41,3 +41,14 @@ hex_to_hsl <- function(hex) {
 hsl_to_hex <- function(hsl) {
   convert(hsl, from = "hsl", to = "hex")
 }
+
+#' Convert HEX to OKLCH
+#'
+#' @param hex Character vector of hex colour strings.
+#' @return Numeric vector (length 3) or matrix with columns `l`, `c`, `h`.
+#' @examples
+#' hex_to_oklch(\"#ff0000\")
+#' @export
+hex_to_oklch <- function(hex) {
+  convert(hex, from = "hex", to = "oklch")
+}

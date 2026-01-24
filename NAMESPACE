@@ -2,6 +2,7 @@
 
 export(convert)
 export(hex_to_hsl)
+export(hex_to_oklch)
 export(hex_to_rgb)
 export(hsl_to_hex)
 export(rgb_to_hex)
