@@ -1,11 +1,6 @@
+# colourspace <img src="hex.png" align="right" height="139" alt="colourspace hex logo" />
 
-# colourspace
 *Technically speaking, we're dealing with color systems, not spaces. But since this is a hex-driven project, I couldn't pass up such a great name. 🚀*
-<p align="center">
-
-<img src="hex-in-readme.png" alt="colourspace hex logo" width="50%"/>
-
-</p>
 
 ## Main Functionality
 Convert colours between spaces (hex, RGB, HSL, OKLab, OKLch) and generate modern ready-to-paste CSS syntax.
