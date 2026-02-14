@@ -1,41 +1,78 @@
-# colorspace
 
-Enhances R's colour handling for designers and Shiny developers with CSS-ready conversions between HEX, RGB, HSL, and OKLCH, plus a 31k+ colour name lookup sourced from [meodai/color-names](https://github.com/meodai/color-names).
+# colourspace
+*Technically speaking, we're dealing with color systems, not spaces. But since this is a hex-driven project, I couldn't pass up such a great name. 🚀*
+<p align="center">
 
-## Install (local dev)
+<img src="hex-in-readme.png" alt="colourspace hex logo" width="50%"/>
 
-```r
-# from project root
-remotes::install_local()
+</p>
+
+## Main Functionality
+Convert colours between spaces (hex, RGB, HSL, OKLab, OKLch) and generate modern ready-to-paste CSS syntax.
+
+## Installation
+
+``` r
+# install.packages("pak")
+pak::pak("iamyannc/colourspace")
 ```
 
-## Usage
+## Who is this for?
 
-```r
-library(colorspace)
+Anyone doing awesome Shiny apps or Quarto dashboards that wants to spice things up with better colors, or any UI/UX/Web professional that wants to convert from one colour space to another,
+or produce a modern CSS syntax programatically for any color out there. 🎨 
 
-# General conversion
-convert("#ff9900", from = "hex", to = "oklch")
+## Quick examples
 
-# Named colour lookup + piping
-name_to_hex("100 Mph") |>
-  hex_to_hsl()
+``` r
+library(colourspace)
 
-# Vectorised conversions
-hex_to_rgb(c("#ff0000", "#00ff00", "#0000ff"))
+# Convert hex to RGB
+hex_to_rgb("#ff5733")
+#>   r   g   b 
+#> 255  87  51
+
+# Get modern CSS output (oklch is the default)
+to_css("#ff5733")
+#> [1] "oklch(67.267% 0.208 37.377 / 1)"
+
+# With transparency
+to_css(c("coral", "teal"), alpha = 0.8)
+#> [1] "oklch(72.556% 0.159 40.856 / 0.8)" "oklch(54.305% 0.098 194.764 / 0.8)"
+
+# Reverse lookup: hex to colour name
+hex_to_name("#c93f38")
+#> [1] "100 Mph"
+
+# Fallback to nearest named colour (default behaviour)
+hex_to_name("#a1b2c3")
+#> Warning: Fallback to nearest lab name for 1 colour(s).
+#> [1] "Cadet Grey"
+
+# Disable fallback to get NA for unknown colours
+hex_to_name("#a1b2c3", fallback = FALSE)
+#> [1] NA
+
+# Low level function (great usecase for applying different spaces!)
+convert_colourspace(value = "f", from = "hex", to = "name")
+[1] "White"
 ```
 
-## Data source
+## Colour spaces
 
-The `color_names` dataset is derived from the `colornames.csv` file in the
-meodai/color-names repository (retrieved January 24, 2026). Names are matched
-case-insensitively and mapped to lowercase hex codes.
+| Space   | Description                                  |
+|---------|----------------------------------------------|
+| `hex`   | `#rrggbb` or `#rrggbbaa`                     |
+| `rgb`   | Red, Green, Blue (0–255)                     |
+| `hsl`   | Hue (0–360), Saturation, Lightness (0–100)   |
+| `oklab` | Perceptually uniform Lab (L: 0–1, a/b: ±0.4) |
+| `oklch` | Polar OKLab (L: 0–1, Chroma ≥0, Hue: 0–360)  |
+| `name`  | Colour name from 31k+ database               |
 
-## Development
 
-- Roxygen2 docs (`devtools::document()`)
-- Tests (`devtools::test()`)
-- Pkgdown site (`pkgdown::build_site()`)
+## License
+USE IT AS YOU PLEASE ♥️ 
 
-Feel free to open branches per feature before merging into `main` to mirror the
-workflow used here.
+- This package was inspired by [Antti Rask's col2hex2col](https://github.com/AnttiRask/col2hex2col).
+- All the heavy lifting of matching color names to hex codes was handled by [David Aerne](https://github.com/meodai) in the [meodai/color-names](https://github.com/meodai/color-names) project.
+

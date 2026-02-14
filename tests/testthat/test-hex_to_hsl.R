@@ -1,4 +1,4 @@
-library(colorspace)
+library(colourspace)
 
 test_that("hex_to_hsl converts correctly", {
   expect_equal(hex_to_hsl("#336699"), c(h = 210, s = 50, l = 40))

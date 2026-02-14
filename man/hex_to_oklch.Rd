@@ -9,7 +9,7 @@ hex_to_oklch(hex, ...)
 \arguments{
 \item{hex}{Character vector of hex colour strings.}
 
-\item{...}{Additional options passed to \code{\link[=convert]{convert()}}.}
+\item{...}{Additional options passed to \code{\link[=convert_colourspace]{convert_colourspace()}}.}
 }
 \value{
 Numeric vector (length 3) or matrix with columns \code{l}, \code{c}, \code{h}.

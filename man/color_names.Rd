@@ -18,7 +18,11 @@ A data frame with two columns:
 color_names
 }
 \description{
-A dataset containing 31k+ color names compiled by the
-\href{https://github.com/meodai/color-names}{meodai/color-names} project.
+A dataset containing 31k+ color names compiled by David Aerne's
+\href{https://github.com/meodai/color-names}{meodai/color-names} project, merged
+with R's built-in colour names.
+}
+\author{
+Data curated by David Aerne (\url{https://github.com/meodai}).
 }
 \keyword{datasets}

@@ -1,4 +1,4 @@
-library(colorspace)
+library(colourspace)
 
 test_that("hex_to_oklch converts via farver", {
   red <- hex_to_oklch("#ff0000")

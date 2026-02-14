@@ -1,13 +1,15 @@
 #' CSS color names to HEX mapping
 #'
-#' A dataset containing 31k+ color names compiled by the
-#' [meodai/color-names](https://github.com/meodai/color-names) project.
+#' A dataset containing 31k+ color names compiled by David Aerne's
+#' [meodai/color-names](https://github.com/meodai/color-names) project, merged
+#' with R's built-in colour names.
 #'
 #' @format A data frame with two columns:
 #' \describe{
 #'   \item{name}{Color name as provided by the source (character).}
 #'   \item{hex}{Lowercase hex triplet starting with '#'.}
 #' }
+#' @author Data curated by David Aerne (\url{https://github.com/meodai}).
 #' @source <https://github.com/meodai/color-names>
 "color_names"
 
@@ -25,5 +27,6 @@
 #'   \item{rgb_r, rgb_g, rgb_b}{sRGB components (0-255).}
 #'   \item{hsl_h, hsl_s, hsl_l}{HSL components.}
 #' }
+#' @author Data curated by David Aerne (\url{https://github.com/meodai}).
 #' @source Derived from \code{color_names} using farver decoders.
 "color_map"

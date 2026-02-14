@@ -5,13 +5,13 @@
 #'   numeric vector of length 3, matrix/data frame with three columns, or a
 #'   list of such vectors.
 #' @param from Source colour space. One of `"hex"`, `"rgb"`, `"hsl"`,
-#'   `"oklch"`, or `"name"`.
+#'   `"oklab"`, `"oklch"`, or `"name"`.
 #' @param to Target colour space. One of `"hex"`, `"rgb"`, `"hsl"`,
-#'   `"oklch"`, or `"name"` (reverse lookup).
-#' @param fallback Optional behaviour when mapping `to = "name"` and no exact
-#'   hex/name match is found. Use `"none"` (default) to return `NA` for unknown
-#'   colours or `"nearest"` to return the closest named colour using
-#'   `distance`. A warning is issued when fallback is used.
+#'   `"oklab"`, `"oklch"`, or `"name"` (reverse lookup).
+#' @param fallback Behaviour when mapping `to = "name"` and no exact
+#'   hex/name match is found. `TRUE` (default) returns the closest named
+#'   colour using `distance` (a warning is issued). `FALSE` returns `NA`
+#'   for unknown colours.
 #' @param distance Distance metric for nearest-colour fallback: one of
 #'   `"lab"` (default), `"oklch"`, `"rgb"`, or `"hsl"`.
 #' @param ... Additional arguments passed through by wrapper helpers.
@@ -19,18 +19,22 @@
 #'   name). For vectorised inputs, a matrix with one row per input colour or a
 #'   character vector for `to = "name"`.
 #' @details All conversions and nearest-colour calculations are powered by the
-#'   \pkg{farver} package.
+#'   \pkg{farver} package. Hex inputs may include an alpha channel
+#'   (`#rgba`/`#rrggbbaa`), but alpha is currently ignored (stripped before
+#'   decoding).
 #' @importFrom farver decode_colour encode_colour convert_colour
 #' @examples
-#' convert("#ff0000", from = "hex", to = "rgb")
-#' convert(c(255, 255, 0), from = "rgb", to = "hex")
-#' convert(c("#ff0000", "#00ff00"), from = "hex", to = "oklch")
+#' convert_colourspace("#ff0000", from = "hex", to = "rgb")
+#' convert_colourspace(c(255, 255, 0), from = "rgb", to = "hex")
+#' convert_colourspace(c("#ff0000", "#00ff00"), from = "hex", to = "oklch")
 #' @export
-convert <- function(value, from, to, fallback = c("none", "nearest"),
+convert_colourspace <- function(value, from, to, fallback = TRUE,
                     distance = c("lab", "oklch", "rgb", "hsl"), ...) {
   from <- match_space(from, allow_name = TRUE)
   to <- match_space(to, allow_name = TRUE)
-  fallback <- match_fallback(fallback)
+  if (!is.logical(fallback) || length(fallback) != 1L) {
+    stop("`fallback` must be TRUE or FALSE.", call. = FALSE)
+  }
   distance <- match.arg(distance)
 
   if (identical(from, to)) {
@@ -42,17 +46,17 @@ convert <- function(value, from, to, fallback = c("none", "nearest"),
     if (to == "hex") {
       return(hex)
     }
-    return(convert(hex, from = "hex", to = to, fallback = fallback, distance = distance))
+    return(convert_colourspace(hex, from = "hex", to = to, fallback = fallback, distance = distance))
   }
 
   if (to == "name") {
     # Convert anything to hex first, then map to names (with optional fallback)
-    hex <- if (from == "hex") normalize_hex(value) else convert(value, from = from, to = "hex", fallback = "none", distance = distance)
+    hex <- if (from == "hex") normalize_hex(value) else convert_colourspace(value, from = from, to = "hex", fallback = FALSE, distance = distance)
     return(hex_to_name_with_fallback(hex, fallback = fallback, distance = distance))
   }
 
   if (from == "hex") {
-    hex <- normalize_hex(value)
+    hex <- strip_hex_alpha(value)
     out <- farver::decode_colour(hex, to = to)
     return(format_colour_result(out, to))
   }
@@ -69,7 +73,7 @@ convert <- function(value, from, to, fallback = c("none", "nearest"),
 }
 
 match_space <- function(x, allow_name = FALSE) {
-  valid <- c("hex", "rgb", "hsl", "oklch")
+  valid <- c("hex", "rgb", "hsl", "oklab", "oklch")
   if (allow_name) {
     valid <- c("name", valid)
   }
@@ -87,30 +91,63 @@ normalize_hex <- function(x) {
   x <- tolower(trimws(x))
   needs_hash <- !grepl("^#", x)
   x[needs_hash] <- paste0("#", x[needs_hash])
-  invalid <- !grepl("^#([0-9a-f]{6}|[0-9a-f]{3})$", x)
+  invalid <- !grepl("^#([0-9a-f]{3}|[0-9a-f]{4}|[0-9a-f]{6}|[0-9a-f]{8})$", x)
   if (any(invalid)) {
     bad <- unique(x[invalid])
-    stop(sprintf("Invalid hex value(s): %s", paste(bad, collapse = ", ")), call. = FALSE)
+    stop(sprintf("Invalid hex code(s): %s", paste(bad, collapse = ", ")), call. = FALSE)
+  }
+
+  # Expand #rgb/#rgba to full length for downstream tools.
+  short3 <- grepl("^#[0-9a-f]{3}$", x)
+  if (any(short3)) {
+    s <- substring(x[short3], 2)
+    x[short3] <- paste0(
+      "#",
+      substring(s, 1, 1), substring(s, 1, 1),
+      substring(s, 2, 2), substring(s, 2, 2),
+      substring(s, 3, 3), substring(s, 3, 3)
+    )
+  }
+  short4 <- grepl("^#[0-9a-f]{4}$", x)
+  if (any(short4)) {
+    s <- substring(x[short4], 2)
+    x[short4] <- paste0(
+      "#",
+      substring(s, 1, 1), substring(s, 1, 1),
+      substring(s, 2, 2), substring(s, 2, 2),
+      substring(s, 3, 3), substring(s, 3, 3),
+      substring(s, 4, 4), substring(s, 4, 4)
+    )
   }
   x
 }
 
+strip_hex_alpha <- function(x) {
+  # farver decoders operate on opaque colours; drop alpha if provided.
+  x <- normalize_hex(x)
+  x[grepl("^#[0-9a-f]{8}$", x)] <- substr(x[grepl("^#[0-9a-f]{8}$", x)], 1, 7)
+  x
+}
+
 lookup_name <- function(name) {
-  if (!exists("color_names", envir = environment(), inherits = TRUE)) {
-    data("color_names", envir = environment())
+  env <- environment()
+  if (!exists("color_names", envir = env, inherits = TRUE)) {
+    utils::data("color_names", envir = env)
   }
-  idx <- match(tolower(name), tolower(color_names$name))
+  cn <- get("color_names", envir = env, inherits = TRUE)
+  idx <- match(tolower(name), tolower(cn$name))
   missing <- is.na(idx)
   if (any(missing)) {
     stop(sprintf("Unknown colour name(s): %s", paste(unique(name[missing]), collapse = ", ")), call. = FALSE)
   }
-  color_names$hex[idx]
+  cn$hex[idx]
 }
 
 as_colour_matrix <- function(value, space) {
   cols <- switch(space,
                  rgb = c("r", "g", "b"),
                  hsl = c("h", "s", "l"),
+                 oklab = c("l", "a", "b"),
                  oklch = c("l", "c", "h"))
 
   if (is.matrix(value)) {
@@ -138,17 +175,10 @@ format_colour_result <- function(mat, space) {
   colnames(mat) <- switch(space,
                          rgb = c("r", "g", "b"),
                          hsl = c("h", "s", "l"),
+                         oklab = c("l", "a", "b"),
                          oklch = c("l", "c", "h"))
   if (nrow(mat) == 1) {
     return(drop(mat[1, ]))
   }
   mat
-}
-
-match_fallback <- function(x) {
-  if (is.logical(x)) {
-    x <- if (isTRUE(x)) "nearest" else "none"
-  }
-  x <- match.arg(tolower(x), c("none", "nearest"))
-  x
 }

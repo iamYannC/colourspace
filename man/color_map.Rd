@@ -25,4 +25,7 @@ color_map
 A data frame containing each colour name, hex code, and coordinates in
 multiple colour spaces for fast nearest-neighbour search.
 }
+\author{
+Data curated by David Aerne (\url{https://github.com/meodai}).
+}
 \keyword{datasets}

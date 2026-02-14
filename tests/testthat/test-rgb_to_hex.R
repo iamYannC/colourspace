@@ -1,6 +1,6 @@
-library(colorspace)
+library(colourspace)
 
-test_that("rgb_to_hex wraps convert", {
+test_that("rgb_to_hex wraps convert_colourspace", {
   expect_equal(rgb_to_hex(c(51, 102, 153)), "#336699")
   mat <- matrix(c(255, 0, 0,
                   0, 255, 0,

@@ -1,12 +1,18 @@
-^LICENSE\.md$
-^data-raw$
-^pkgdown\.yml$
+^\.git$
+^\.gitignore$
+^\.\.Rcheck$
 ^_pkgdown\.yml$
 ^docs$
-^\.github$
-^README\.Rmd$
-^dev$
-^renv$
-^example function oklch$
-^pkgdown$
+^data-raw$
+^gpt functions$
+^links to reference$
 ^fallback example$
+^hex-in-readme\.png$
+^hex\.png$
+^interacting\.R$
+^example_usage\.R$
+^LICENSE\.md$
+^colourspace\.Rcheck$
+^colourspace_.*\.tar\.gz$
+^\.Rproj\.user$
+^.*\.Rproj$

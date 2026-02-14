@@ -7,6 +7,6 @@
 # * https://testthat.r-lib.org/articles/special-files.html
 
 library(testthat)
-library(colorspace)
+library(colourspace)
 
-test_check("colorspace")
+test_check("colourspace")

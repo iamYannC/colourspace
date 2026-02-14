@@ -9,7 +9,7 @@ hsl_to_hex(hsl, ...)
 \arguments{
 \item{hsl}{Numeric vector/matrix of HSL values (h: 0-360, s/l: 0-100).}
 
-\item{...}{Additional options passed to \code{\link[=convert]{convert()}}.}
+\item{...}{Additional options passed to \code{\link[=convert_colourspace]{convert_colourspace()}}.}
 }
 \value{
 Character vector of hex colours.

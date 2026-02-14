@@ -1,4 +1,4 @@
-library(colorspace)
+library(colourspace)
 
 test_that("name_to_hex maps names via dataset", {
   expect_equal(name_to_hex("100 Mph"), "#c93f38")

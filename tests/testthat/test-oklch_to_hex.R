@@ -1,4 +1,4 @@
-library(colorspace)
+library(colourspace)
 
 test_that("oklch_to_hex converts back to hex", {
   red_oklch <- c(0.6279152, 0.2576972, 29.2211)

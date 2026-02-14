@@ -1,20 +1,19 @@
-Package: colorspace
-Title: colorspace: CSS-aware Colour Conversions
-Version: 0.0.0.9000
+Package: colourspace
+Title: Convert from One Colour Space to Another, Print a Ready-to-Paste Modern
+    CSS Syntax
+Version: 0.0.1
 Authors@R: c(
-    person(given = "Yann", family = "Client", role = c("aut", "cre"))
+    person(given = "Yann", family = "Cohen", role = c("aut", "cre"), email = "yannco5@gmail.com")
     )
 Description: Enhances R colour handling with CSS-compatible conversions.
 License: MIT + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.3
-Suggests: 
-    testthat (>= 3.0.0),
-    pkgdown
 Config/testthat/edition: 3
 Depends: 
     R (>= 3.5)
 LazyData: true
 Imports:
-    farver
+    farver,
+    RANN
