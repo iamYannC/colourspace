@@ -1,4 +1,4 @@
-# colourspace <img src="hex.png" align="right" height="139" alt="colourspace hex logo" />
+# colourspace <img src="hex.png" align="right" height="150" alt="colourspace hex logo" />
 
 *Technically speaking, we're dealing with color systems, not spaces. But since this is a hex-driven project, I couldn't pass up such a great name. 🚀*
 
