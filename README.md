@@ -15,7 +15,7 @@ pak::pak("iamyannc/colourspace")
 ## Who is this for?
 
 Anyone doing awesome Shiny apps or Quarto dashboards that wants to spice things up with better colors, or any UI/UX/Web professional that wants to convert from one colour space to another,
-or produce a modern CSS syntax programatically for any color out there. 🎨 
+or produce a modern CSS syntax programmatically for any color out there. 🎨 
 
 ## Quick examples
 
