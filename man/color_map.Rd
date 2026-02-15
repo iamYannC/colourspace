@@ -7,8 +7,10 @@
 \format{
 A data frame with the following columns:
 \describe{
-\item{name}{Colour name (character).}
 \item{hex}{Lowercase hex code starting with '#'.}
+\item{name}{Colour name (character).}
+\item{source}{Origin of the colour name: \code{"r"} or \code{"extended"}
+(see \code{\link{color_names}}).}
 \item{lab_l, lab_a, lab_b}{CIELAB components.}
 \item{oklch_l, oklch_c, oklch_h}{OKLCH components.}
 \item{rgb_r, rgb_g, rgb_b}{sRGB components (0-255).}
