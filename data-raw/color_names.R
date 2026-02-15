@@ -1,3 +1,5 @@
+# This script was modified from https://github.com/AnttiRask/col2hex2col/
+
 # Download and prepare color names for package use
 # Combines meodai color-names with R's built-in colors
 
