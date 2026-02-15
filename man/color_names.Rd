@@ -5,10 +5,13 @@
 \alias{color_names}
 \title{CSS color names to HEX mapping}
 \format{
-A data frame with two columns:
+A data frame with three columns:
 \describe{
-\item{name}{Color name as provided by the source (character).}
 \item{hex}{Lowercase hex triplet starting with '#'.}
+\item{name}{Color name as provided by the source (character).}
+\item{source}{Origin of the colour name: \code{"r"} for R's built-in
+colours (\code{grDevices::colors()}) or \code{"extended"} for the
+meodai/color-names community database.}
 }
 }
 \source{

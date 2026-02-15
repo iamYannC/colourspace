@@ -4,10 +4,13 @@
 #' [meodai/color-names](https://github.com/meodai/color-names) project, merged
 #' with R's built-in colour names.
 #'
-#' @format A data frame with two columns:
+#' @format A data frame with three columns:
 #' \describe{
-#'   \item{name}{Color name as provided by the source (character).}
 #'   \item{hex}{Lowercase hex triplet starting with '#'.}
+#'   \item{name}{Color name as provided by the source (character).}
+#'   \item{source}{Origin of the colour name: \code{"r"} for R's built-in
+#'     colours (\code{grDevices::colors()}) or \code{"extended"} for the
+#'     meodai/color-names community database.}
 #' }
 #' @author Data curated by David Aerne (\url{https://github.com/meodai}).
 #' @source <https://github.com/meodai/color-names>
@@ -20,8 +23,10 @@
 #'
 #' @format A data frame with the following columns:
 #' \describe{
-#'   \item{name}{Colour name (character).}
 #'   \item{hex}{Lowercase hex code starting with '#'.}
+#'   \item{name}{Colour name (character).}
+#'   \item{source}{Origin of the colour name: \code{"r"} or \code{"extended"}
+#'     (see \code{\link{color_names}}).}
 #'   \item{lab_l, lab_a, lab_b}{CIELAB components.}
 #'   \item{oklch_l, oklch_c, oklch_h}{OKLCH components.}
 #'   \item{rgb_r, rgb_g, rgb_b}{sRGB components (0-255).}

@@ -14,8 +14,8 @@ utils::download.file(url, destfile = local_csv, mode = "wb", quiet = TRUE)
 raw <- utils::read.csv(local_csv, stringsAsFactors = FALSE)
 
 colornames_extended <- unique(raw[c("name", "hex")])
-colornames_extended$name <- tolower(trimws(colornames_extended$name))
-colornames_extended$hex <- toupper(trimws(colornames_extended$hex))
+colornames_extended$name <- trimws(colornames_extended$name)
+colornames_extended$hex <- tolower(trimws(colornames_extended$hex))
 
 # Ensure HEX strings start with '#'
 needs_hash <- !grepl("^#", colornames_extended$hex)
@@ -28,10 +28,9 @@ colornames_extended$source <- "extended"
 # ============================================================================
 
 r_colors <- colors()
-r_hex <- toupper(rgb(t(col2rgb(r_colors)), maxColorValue = 255))
+r_hex <- tolower(rgb(t(col2rgb(r_colors)), maxColorValue = 255))
 
-# Ensure R colors also have '#' prefix
-r_hex <- paste0("#", r_hex)
+# rgb() already returns '#'-prefixed strings; no extra paste needed
 
 colornames_r <- data.frame(
     name = tolower(r_colors),
@@ -55,16 +54,19 @@ color_names <- do.call(rbind, lapply(hex_groups, function(group) {
     r_names <- group$name[group$source == "r"]
     if (length(r_names) > 0) {
         chosen_name <- r_names[1]
+        chosen_source <- "r"
     } else {
         # Otherwise, use shortest name from extended database
         extended_names <- group$name[group$source == "extended"]
         shortest_idx <- which.min(nchar(extended_names))
         chosen_name <- extended_names[shortest_idx]
+        chosen_source <- "extended"
     }
 
     data.frame(
         hex = group$hex[1],
         name = chosen_name,
+        source = chosen_source,
         stringsAsFactors = FALSE
     )
 }))
