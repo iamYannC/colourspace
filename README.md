@@ -1,8 +1,9 @@
-# colourspace <img src="hex.png" align="right" height="150" alt="colourspace hex logo" />
+# colourspace <img src="hex.png" alt="colourspace hex logo" align="right" height="150"/>
 
 *Technically speaking, we're dealing with color systems, not spaces. But since this is a hex-driven project, I couldn't pass up such a great name. 🚀*
 
 ## Main Functionality
+
 Convert colours between spaces (hex, RGB, HSL, OKLab, OKLch) and generate modern ready-to-paste CSS syntax.
 
 ## Installation
@@ -14,8 +15,7 @@ pak::pak("iamyannc/colourspace")
 
 ## Who is this for?
 
-Anyone doing awesome Shiny apps or Quarto dashboards that wants to spice things up with better colors, or any UI/UX/Web professional that wants to convert from one colour space to another,
-or produce a modern CSS syntax programmatically for any color out there. 🎨 
+Anyone doing awesome Shiny apps or Quarto dashboards that wants to spice things up with better colors, or any UI/UX/Web professional that wants to convert from one colour space to another, or produce a modern CSS syntax programmatically for any color out there. 🎨
 
 ## Quick examples
 
@@ -64,10 +64,10 @@ convert_colourspace(value = "f", from = "hex", to = "name")
 | `oklch` | Polar OKLab (L: 0–1, Chroma ≥0, Hue: 0–360)  |
 | `name`  | Colour name from 31k+ database               |
 
-
 ## License
-USE IT AS YOU PLEASE ♥️ 
 
-- This package was inspired by [Antti Rask's col2hex2col](https://github.com/AnttiRask/col2hex2col).
-- All the heavy lifting of matching color names to hex codes was handled by [David Aerne](https://github.com/meodai) in the [meodai/color-names](https://github.com/meodai/color-names) project.
+USE IT AS YOU PLEASE ♥️
 
+-   This package was inspired by [Antti Rask's col2hex2col](https://github.com/AnttiRask/col2hex2col).
+    -   both data files were adjusted from Antti's prior implementation. Thanks!
+-   All the heavy lifting of matching color names to hex codes was handled by [David Aerne](https://github.com/meodai) in the [meodai/color-names](https://github.com/meodai/color-names) project.
