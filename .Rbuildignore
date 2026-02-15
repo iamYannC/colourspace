@@ -16,3 +16,4 @@
 ^colourspace_.*\.tar\.gz$
 ^\.Rproj\.user$
 ^.*\.Rproj$
+^README\.html$

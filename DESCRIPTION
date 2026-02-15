@@ -5,7 +5,11 @@ Version: 0.0.1
 Authors@R: c(
     person(given = "Yann", family = "Cohen", role = c("aut", "cre"), email = "yannco5@gmail.com")
     )
-Description: Enhances R colour handling with CSS-compatible conversions.
+Description: Provides a comprehensive API for colour conversion between popular
+    colour spaces (RGB, HSL, OKLab, OKLch, hex, and named colours) along with
+    clean, modern CSS Color Level 4 syntax output. Integrates seamlessly into
+    Shiny and Quarto workflows. Includes nearest colour name lookup powered by
+    a curated database of over 30,000 colour names.
 License: MIT + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
@@ -17,3 +21,5 @@ LazyData: true
 Imports:
     farver,
     RANN
+Suggests:
+    testthat (>= 3.0.0)
