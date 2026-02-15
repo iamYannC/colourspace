@@ -14,7 +14,6 @@
 #'   for unknown colours.
 #' @param distance Distance metric for nearest-colour fallback: one of
 #'   `"lab"` (default), `"oklch"`, `"rgb"`, or `"hsl"`.
-#' @param ... Additional arguments passed through by wrapper helpers.
 #' @return For scalar inputs, a named numeric vector (or hex string or colour
 #'   name). For vectorised inputs, a matrix with one row per input colour or a
 #'   character vector for `to = "name"`.
@@ -29,7 +28,7 @@
 #' convert_colourspace(c("#ff0000", "#00ff00"), from = "hex", to = "oklch")
 #' @export
 convert_colourspace <- function(value, from, to, fallback = TRUE,
-                    distance = c("lab", "oklch", "rgb", "hsl"), ...) {
+                    distance = c("lab", "oklch", "rgb", "hsl")) {
   from <- match_space(from, allow_name = TRUE)
   to <- match_space(to, allow_name = TRUE)
   if (!is.logical(fallback) || length(fallback) != 1L) {
