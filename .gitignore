@@ -12,3 +12,7 @@ inst/doc
 docs/
 _pkgdown.yml
 README.html
+README.html
+IMPLEMENTATION_SUMMARY.md
+tests-from_css.R
+dev/
