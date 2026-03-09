@@ -1,15 +1,24 @@
 Package: colourspace
 Title: Convert from One Colour Space to Another, Print a Ready-to-Paste Modern
-    CSS Syntax
+    'CSS' Syntax
 Version: 0.0.1
 Authors@R: c(
-    person(given = "Yann", family = "Cohen", role = c("aut", "cre"), email = "yannco5@gmail.com")
+    person(
+        given = "Yann",
+        family = "Cohen",
+        role = c("aut", "cre"),
+        email = "yannco5@gmail.com",
+        comment = c(ORCID = "0009-0009-0509-3609")
     )
-Description: Provides a comprehensive API for colour conversion between popular
-    colour spaces (RGB, HSL, OKLab, OKLch, hex, and named colours) along with
-    clean, modern CSS Color Level 4 syntax output. Integrates seamlessly into
-    Shiny and Quarto workflows. Includes nearest colour name lookup powered by
+    )
+Description: Provides a comprehensive 'API' for colour conversion between popular
+    colour spaces ('RGB', 'HSL', 'OKLab', 'OKLch', 'hex', and named colours) along with
+    clean, modern 'CSS' Color Level 4 syntax output. Integrates seamlessly into
+    'Shiny' and 'Quarto' workflows. Includes nearest colour name lookup powered by
     a curated database of over 30,000 colour names.
+    'OKLab'/'OKLCh' colour spaces are described in Ottosson (2020)
+    <https://bottosson.github.io/posts/oklab/>. 'CSS' Color Level 4 syntax follows
+    the W3C specification <https://www.w3.org/TR/css-color-4/>.
 License: MIT + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
