@@ -4,12 +4,7 @@
 \alias{hex_to_name}
 \title{Convert HEX to colour name}
 \usage{
-hex_to_name(
-  hex,
-  fallback = TRUE,
-  distance = c("lab", "oklch", "rgb", "hsl"),
-  ...
-)
+hex_to_name(hex, fallback = TRUE, distance = c("lab", "oklch", "rgb", "hsl"))
 }
 \arguments{
 \item{hex}{Character vector of hex colour strings.}
@@ -19,8 +14,6 @@ no exact match exists, or \code{FALSE} to return \code{NA}.}
 
 \item{distance}{Distance metric for nearest-colour fallback: one of \code{"lab"}
 (default), \code{"oklch"}, \code{"rgb"}, or \code{"hsl"}.}
-
-\item{...}{Additional options passed to \code{\link[=convert_colourspace]{convert_colourspace()}}.}
 }
 \value{
 Character vector of colour names (or \code{NA}).

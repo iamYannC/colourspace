@@ -4,12 +4,10 @@
 \alias{rgb_to_hex}
 \title{Convert RGB to HEX}
 \usage{
-rgb_to_hex(rgb, ...)
+rgb_to_hex(rgb)
 }
 \arguments{
 \item{rgb}{Numeric vector/matrix of RGB values (0-255).}
-
-\item{...}{Additional options passed to \code{\link[=convert_colourspace]{convert_colourspace()}}.}
 }
 \value{
 Character vector of hex colours.

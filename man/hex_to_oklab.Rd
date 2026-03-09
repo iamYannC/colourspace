@@ -4,12 +4,10 @@
 \alias{hex_to_oklab}
 \title{Convert HEX to OKLAB}
 \usage{
-hex_to_oklab(hex, ...)
+hex_to_oklab(hex)
 }
 \arguments{
 \item{hex}{Character vector of hex colour strings.}
-
-\item{...}{Additional options passed to \code{\link[=convert_colourspace]{convert_colourspace()}}.}
 }
 \value{
 Numeric vector (length 3) or matrix with columns \code{l}, \code{a}, \code{b}.

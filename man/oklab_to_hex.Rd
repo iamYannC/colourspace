@@ -4,12 +4,10 @@
 \alias{oklab_to_hex}
 \title{Convert OKLAB to HEX}
 \usage{
-oklab_to_hex(oklab, ...)
+oklab_to_hex(oklab)
 }
 \arguments{
 \item{oklab}{Numeric vector/matrix of OKLAB values (\code{l} in 0-1).}
-
-\item{...}{Additional options passed to \code{\link[=convert_colourspace]{convert_colourspace()}}.}
 }
 \value{
 Character vector of hex colours.

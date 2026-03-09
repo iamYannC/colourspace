@@ -4,12 +4,10 @@
 \alias{name_to_hex}
 \title{Convert colour name to HEX}
 \usage{
-name_to_hex(name, ...)
+name_to_hex(name)
 }
 \arguments{
 \item{name}{Character vector of colour names (case-insensitive).}
-
-\item{...}{Additional options passed to \code{\link[=convert_colourspace]{convert_colourspace()}}.}
 }
 \value{
 Character vector of hex colours.

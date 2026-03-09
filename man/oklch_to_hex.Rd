@@ -4,12 +4,10 @@
 \alias{oklch_to_hex}
 \title{Convert OKLCH to HEX}
 \usage{
-oklch_to_hex(oklch, ...)
+oklch_to_hex(oklch)
 }
 \arguments{
 \item{oklch}{Numeric vector/matrix of OKLCH values (\code{l} in 0-1, \code{c} >= 0, \code{h} in degrees).}
-
-\item{...}{Additional options passed to \code{\link[=convert_colourspace]{convert_colourspace()}}.}
 }
 \value{
 Character vector of hex colours.

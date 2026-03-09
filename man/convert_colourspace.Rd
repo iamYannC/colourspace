@@ -9,8 +9,7 @@ convert_colourspace(
   from,
   to,
   fallback = TRUE,
-  distance = c("lab", "oklch", "rgb", "hsl"),
-  ...
+  distance = c("lab", "oklch", "rgb", "hsl")
 )
 }
 \arguments{
@@ -32,8 +31,6 @@ for unknown colours.}
 
 \item{distance}{Distance metric for nearest-colour fallback: one of
 \code{"lab"} (default), \code{"oklch"}, \code{"rgb"}, or \code{"hsl"}.}
-
-\item{...}{Additional arguments passed through by wrapper helpers.}
 }
 \value{
 For scalar inputs, a named numeric vector (or hex string or colour
