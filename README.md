@@ -13,7 +13,7 @@ Convert colours between spaces (hex, RGB, HSL, OKLab, OKLch) and generate modern
 
 ``` r
 # install.packages("pak")
-pak::pak("iamyannc/colourspace")
+pak::pak("colourspace")
 ```
 
 ## Who is this for?
