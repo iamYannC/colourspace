@@ -1,6 +1,9 @@
 # colourspace <img src="hex.png" alt="colourspace hex logo" align="right" height="150"/>
 
-*Technically speaking, we're dealing with color systems, not spaces. But since this is a hex-driven project, I couldn't pass up such a great name. 🚀*
+*Technically speaking, we're dealing with color systems, not spaces. But I couldn't pass up such a great name. 🚀*
+
+[![CRAN](https://www.r-pkg.org/badges/version/colourspace)](https://cran.r-project.org/package=colourspace)
+
 
 ## Main Functionality
 
