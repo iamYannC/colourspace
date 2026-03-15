@@ -2,7 +2,7 @@
 
 *Technically speaking, we're dealing with color systems, not spaces. But I couldn't pass up such a great name. 🚀*
 
-[![CRAN](https://www.r-pkg.org/badges/version/colourspace)](https://cran.r-project.org/package=colourspace)
+[![CRAN](https://www.r-pkg.org/badges/version/colourspace)](https://cran.r-project.org/package=colourspace) [![R-CMD-check](https://github.com/iamyannc/colourspace/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/iamyannc/colourspace/actions/workflows/R-CMD-check.yaml) [![ORCID](https://img.shields.io/badge/ORCID-0009--0009--0509--3609-A6CE39?logo=orcid&logoColor=white)](https://orcid.org/0009-0009-0509-3609)
 
 
 ## Main Functionality
@@ -69,7 +69,7 @@ convert_colourspace(value = "f", from = "hex", to = "name")
 
 ## License
 
-USE IT AS YOU PLEASE ♥️
+MIT License. See `LICENSE`.
 
 -   This package was inspired by [Antti Rask's col2hex2col](https://github.com/AnttiRask/col2hex2col).
     -   both data files were adjusted from Antti's prior implementation. Thanks!
