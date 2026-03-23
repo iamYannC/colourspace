@@ -4,12 +4,7 @@
 \alias{from_css}
 \title{Parse CSS color strings}
 \usage{
-from_css(
-  css,
-  to = "hex",
-  fallback = TRUE,
-  distance = c("lab", "oklch", "rgb", "hsl")
-)
+from_css(css, to = "hex", fallback = c("all", "r", "none"))
 }
 \arguments{
 \item{css}{Character vector of CSS color strings. Supported formats:
@@ -26,13 +21,8 @@ from_css(
 \item{to}{Target colour space. One of \code{"hex"} (default), \code{"rgb"}, \code{"hsl"},
 \code{"oklab"}, \code{"oklch"}, or \code{"name"}.}
 
-\item{fallback}{Behaviour when mapping \code{to = "name"} and no exact
-hex/name match is found. \code{TRUE} (default) returns the closest named
-colour using \code{distance} (a warning is issued). \code{FALSE} returns \code{NA}
-for unknown colours.}
-
-\item{distance}{Distance metric for nearest-colour fallback: one of
-\code{"lab"} (default), \code{"oklch"}, \code{"rgb"}, or \code{"hsl"}.}
+\item{fallback}{Passed to \code{\link[=convert_colourspace]{convert_colourspace()}}. One of \code{"all"}
+(default), \code{"r"}, or \code{"none"}.}
 }
 \value{
 For scalar inputs, a named numeric vector (or hex string or colour

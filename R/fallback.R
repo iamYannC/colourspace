@@ -18,23 +18,22 @@ get_color_map <- function() {
   cm
 }
 
-#' Get (or build) the reference matrix for a given distance metric.
+#' Get (or build) the Lab reference matrix, optionally filtered by source.
+#' @param source `"all"` for the full color map, `"r"` for R built-in colors only.
 #' @noRd
-get_ref_matrix <- function(distance) {
-  key <- paste0("ref_", distance)
+get_ref_matrix <- function(source = "all") {
+  key <- paste0("ref_", source)
   if (!is.null(.fallback_cache[[key]])) {
     return(.fallback_cache[[key]])
   }
   cm <- get_color_map()
-  cols <- switch(distance,
-    lab   = c("lab_l", "lab_a", "lab_b"),
-    oklch = c("oklch_l", "oklch_c", "oklch_h"),
-    rgb   = c("rgb_r", "rgb_g", "rgb_b"),
-    hsl   = c("hsl_h", "hsl_s", "hsl_l"),
-    stop(sprintf("Unsupported distance metric '%s'", distance), call. = FALSE)
-  )
+  if (source == "r") {
+    cm <- cm[cm$source == "r", ]
+  }
+  cols <- c("lab_l", "lab_a", "lab_b")
   ref <- as.matrix(cm[, cols])
   .fallback_cache[[key]] <- ref
+  .fallback_cache[[paste0("cm_", source)]] <- cm
   ref
 }
 
@@ -49,32 +48,34 @@ exact_name_lookup <- function(hex) {
   cn$name[matches]
 }
 
-hex_to_name_with_fallback <- function(hex, fallback = TRUE, distance = "lab") {
+hex_to_name_with_fallback <- function(hex, fallback = "all") {
   hex <- strip_hex_alpha(hex)
+
+  # "r" mode: always return nearest R color, skip exact lookup.
+  if (fallback == "r") {
+    return(nearest_named_colour(hex, source = "r"))
+  }
+
   exact <- exact_name_lookup(hex)
   missing <- is.na(exact)
-  if (!any(missing)) {
+  if (!any(missing) || fallback == "none") {
     return(exact)
   }
 
-  if (!isTRUE(fallback)) {
-    return(exact)
-  }
-
-  nearest <- nearest_named_colour(hex[missing], distance = distance)
+  nearest <- nearest_named_colour(hex[missing], source = "all")
   out <- exact
   out[missing] <- nearest
-  warning(sprintf("Fallback to nearest %s name for %d colour(s).", distance, length(nearest)), call. = FALSE)
+  warning(sprintf("Fallback to nearest named colour for %d colour(s).", length(nearest)), call. = FALSE)
   out
 }
 
 #' @importFrom RANN nn2
-nearest_named_colour <- function(hex, distance = "lab") {
-  cm <- get_color_map()
+nearest_named_colour <- function(hex, source = "all") {
+  ref <- get_ref_matrix(source)
+  cm <- .fallback_cache[[paste0("cm_", source)]]
   hex <- strip_hex_alpha(hex)
 
-  ref <- get_ref_matrix(distance)
-  target <- farver::decode_colour(hex, to = distance)
+  target <- farver::decode_colour(hex, to = "lab")
   if (is.null(dim(target))) {
     target <- matrix(target, ncol = 3, byrow = TRUE)
   }

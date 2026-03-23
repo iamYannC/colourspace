@@ -9,11 +9,15 @@
 #' @param to Target colour space. One of `"hex"`, `"rgb"`, `"hsl"`,
 #'   `"oklab"`, `"oklch"`, or `"name"` (reverse lookup).
 #' @param fallback Behaviour when mapping `to = "name"` and no exact
-#'   hex/name match is found. `TRUE` (default) returns the closest named
-#'   colour using `distance` (a warning is issued). `FALSE` returns `NA`
-#'   for unknown colours.
-#' @param distance Distance metric for nearest-colour fallback: one of
-#'   `"lab"` (default), `"oklch"`, `"rgb"`, or `"hsl"`.
+#'   hex/name match is found. One of:
+#'   \describe{
+#'     \item{`"all"`}{(default) Return the closest named colour from the
+#'       full 31 000+ colour database.}
+#'     \item{`"r"`}{Always return the nearest R built-in colour
+#'       (from [grDevices::colors()]). Useful when the result will be used
+#'       in base-R or ggplot2 plotting functions.}
+#'     \item{`"none"`}{Return `NA` for colours without an exact name match.}
+#'   }
 #' @return For scalar inputs, a named numeric vector (or hex string or colour
 #'   name). For vectorised inputs, a matrix with one row per input colour or a
 #'   character vector for `to = "name"`.
@@ -27,14 +31,11 @@
 #' convert_colourspace(c(255, 255, 0), from = "rgb", to = "hex")
 #' convert_colourspace(c("#ff0000", "#00ff00"), from = "hex", to = "oklch")
 #' @export
-convert_colourspace <- function(value, from, to, fallback = TRUE,
-                    distance = c("lab", "oklch", "rgb", "hsl")) {
+convert_colourspace <- function(value, from, to,
+                    fallback = c("all", "r", "none")) {
   from <- match_space(from, allow_name = TRUE)
   to <- match_space(to, allow_name = TRUE)
-  if (!is.logical(fallback) || length(fallback) != 1L) {
-    stop("`fallback` must be TRUE or FALSE.", call. = FALSE)
-  }
-  distance <- match.arg(distance)
+  fallback <- match.arg(fallback)
 
   if (identical(from, to)) {
     return(value)
@@ -45,13 +46,13 @@ convert_colourspace <- function(value, from, to, fallback = TRUE,
     if (to == "hex") {
       return(hex)
     }
-    return(convert_colourspace(hex, from = "hex", to = to, fallback = fallback, distance = distance))
+    return(convert_colourspace(hex, from = "hex", to = to, fallback = fallback))
   }
 
   if (to == "name") {
     # Convert anything to hex first, then map to names (with optional fallback)
-    hex <- if (from == "hex") normalize_hex(value) else convert_colourspace(value, from = from, to = "hex", fallback = FALSE, distance = distance)
-    return(hex_to_name_with_fallback(hex, fallback = fallback, distance = distance))
+    hex <- if (from == "hex") normalize_hex(value) else convert_colourspace(value, from = from, to = "hex", fallback = "none")
+    return(hex_to_name_with_fallback(hex, fallback = fallback))
   }
 
   if (from == "hex") {

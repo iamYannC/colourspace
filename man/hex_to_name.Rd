@@ -4,26 +4,32 @@
 \alias{hex_to_name}
 \title{Convert HEX to colour name}
 \usage{
-hex_to_name(hex, fallback = TRUE, distance = c("lab", "oklch", "rgb", "hsl"))
+hex_to_name(hex, fallback = c("all", "r", "none"))
 }
 \arguments{
 \item{hex}{Character vector of hex colour strings.}
 
-\item{fallback}{\code{TRUE} (default) to return the nearest named colour when
-no exact match exists, or \code{FALSE} to return \code{NA}.}
-
-\item{distance}{Distance metric for nearest-colour fallback: one of \code{"lab"}
-(default), \code{"oklch"}, \code{"rgb"}, or \code{"hsl"}.}
+\item{fallback}{One of \code{"all"} (default), \code{"r"}, or \code{"none"}.}
 }
 \value{
 Character vector of colour names (or \code{NA}).
 }
 \description{
 Reverse lookup using the bundled name database. When an exact match is not
-found, you can return the nearest named colour (\code{fallback = TRUE}, the
-default) or \code{NA} (\code{fallback = FALSE}).
+found, behaviour depends on \code{fallback}:
+}
+\details{
+\describe{
+\item{\code{"all"}}{(default) Return the closest named colour from the full
+31 000+ colour database.}
+\item{\code{"r"}}{Always return the nearest R built-in colour
+(from \code{\link[grDevices:colors]{grDevices::colors()}}). Useful when the result will be used in
+base-R or ggplot2 plotting functions.}
+\item{\code{"none"}}{Return \code{NA} for colours without an exact name match.}
+}
 }
 \examples{
 hex_to_name("#c93f38")
-hex_to_name("#111114", fallback = TRUE)
+hex_to_name("#111114", fallback = "all")
+hex_to_name("#ff5733", fallback = "r")
 }

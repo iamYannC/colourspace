@@ -4,13 +4,7 @@
 \alias{convert_colourspace}
 \title{Convert between colour spaces}
 \usage{
-convert_colourspace(
-  value,
-  from,
-  to,
-  fallback = TRUE,
-  distance = c("lab", "oklch", "rgb", "hsl")
-)
+convert_colourspace(value, from, to, fallback = c("all", "r", "none"))
 }
 \arguments{
 \item{value}{Colour input. For \code{from = "hex"} or \code{from = "name"}, a
@@ -25,12 +19,15 @@ list of such vectors.}
 \code{"oklab"}, \code{"oklch"}, or \code{"name"} (reverse lookup).}
 
 \item{fallback}{Behaviour when mapping \code{to = "name"} and no exact
-hex/name match is found. \code{TRUE} (default) returns the closest named
-colour using \code{distance} (a warning is issued). \code{FALSE} returns \code{NA}
-for unknown colours.}
-
-\item{distance}{Distance metric for nearest-colour fallback: one of
-\code{"lab"} (default), \code{"oklch"}, \code{"rgb"}, or \code{"hsl"}.}
+hex/name match is found. One of:
+\describe{
+\item{\code{"all"}}{(default) Return the closest named colour from the
+full 31 000+ colour database.}
+\item{\code{"r"}}{Always return the nearest R built-in colour
+(from \code{\link[grDevices:colors]{grDevices::colors()}}). Useful when the result will be used
+in base-R or ggplot2 plotting functions.}
+\item{\code{"none"}}{Return \code{NA} for colours without an exact name match.}
+}}
 }
 \value{
 For scalar inputs, a named numeric vector (or hex string or colour

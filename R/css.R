@@ -15,13 +15,8 @@
 #'   `"hsl"`, or `"hex"`.
 #' @param alpha Alpha channel as numbers in `[0, 1]`. Recycled to match the
 #'   number of colours.
-#' @param fallback Behaviour when `from = "name"` (via
-#'   [convert_colourspace()]/[name_to_hex()]) or when generating names
-#'   elsewhere. `TRUE` (default) returns the closest named colour;
-#'   `FALSE` returns `NA`. Included for API consistency with
-#'   [convert_colourspace()].
-#' @param distance Distance metric used for nearest-name fallback when
-#'   applicable. Included for API consistency with [convert_colourspace()].
+#' @param fallback Passed to [convert_colourspace()]. One of `"all"`
+#'   (default), `"r"`, or `"none"`.
 #' @return A character vector of CSS colors.
 #' @seealso
 #'   [OKLCH in CSS: why we moved from RGB and HSL](https://evilmartians.com/chronicles/oklch-in-css-why-quit-rgb-hsl)
@@ -36,13 +31,9 @@ to_css <- function(value,
                    from = NULL,
                    to = c("oklch", "oklab", "rgb", "hsl", "hex"),
                    alpha = 1,
-                   fallback = TRUE,
-                   distance = c("lab", "oklch", "rgb", "hsl")) {
+                   fallback = c("all", "r", "none")) {
   to <- match.arg(to)
-  if (!is.logical(fallback) || length(fallback) != 1L) {
-    stop("`fallback` must be TRUE or FALSE.", call. = FALSE)
-  }
-  distance <- match.arg(distance)
+  fallback <- match.arg(fallback)
 
   if (is.null(from)) {
     from <- infer_from(value)
@@ -51,7 +42,7 @@ to_css <- function(value,
 
   # Convert first (so we can recycle alpha against the actual output length).
   converted <- convert_colourspace(value, from = from, to = if (to == "hex") "hex" else to,
-                       fallback = fallback, distance = distance)
+                       fallback = fallback)
   n <- css_ncolours(converted, to = to)
   alpha <- normalize_css_alpha(alpha, n = n)
 

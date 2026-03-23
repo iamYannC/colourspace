@@ -27,12 +27,8 @@
 #'   }
 #' @param to Target colour space. One of `"hex"` (default), `"rgb"`, `"hsl"`,
 #'   `"oklab"`, `"oklch"`, or `"name"`.
-#' @param fallback Behaviour when mapping `to = "name"` and no exact
-#'   hex/name match is found. `TRUE` (default) returns the closest named
-#'   colour using `distance` (a warning is issued). `FALSE` returns `NA`
-#'   for unknown colours.
-#' @param distance Distance metric for nearest-colour fallback: one of
-#'   `"lab"` (default), `"oklch"`, `"rgb"`, or `"hsl"`.
+#' @param fallback Passed to [convert_colourspace()]. One of `"all"`
+#'   (default), `"r"`, or `"none"`.
 #' @return For scalar inputs, a named numeric vector (or hex string or colour
 #'   name). For vectorised inputs, a matrix with one row per input colour or a
 #'   character vector for `to = "name"` or `to = "hex"`.
@@ -53,12 +49,12 @@
 #' # Vectorized
 #' from_css(c("oklch(62.792% 0.258 29.221 / 1)", "rgb(0 255 0 / 1)"))
 #' @export
-from_css <- function(css, to = "hex", fallback = TRUE,
-                     distance = c("lab", "oklch", "rgb", "hsl")) {
+from_css <- function(css, to = "hex",
+                     fallback = c("all", "r", "none")) {
   if (!is.character(css)) {
     stop("`css` must be a character vector", call. = FALSE)
   }
-  distance <- match.arg(distance)
+  fallback <- match.arg(fallback)
   to <- match_space(to, allow_name = TRUE)
 
   # Process each color string
@@ -68,8 +64,7 @@ from_css <- function(css, to = "hex", fallback = TRUE,
       parsed$value,
       from = parsed$space,
       to = to,
-      fallback = fallback,
-      distance = distance
+      fallback = fallback
     )
   })
 

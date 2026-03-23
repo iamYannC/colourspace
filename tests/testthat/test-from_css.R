@@ -178,20 +178,20 @@ test_that("oklch -> oklch parses correctly (multiple values)", {
   expect_equal(result[, 7], c(0.95, 0.05, 210))
 })
 
-test_that("oklch -> name with fallback=FALSE returns NA for non-exact matches", {
-  result <- sapply(oklch_examples, \(syn) from_css(syn, to = "name", fallback = FALSE))
+test_that("oklch -> name with fallback=none returns NA for non-exact matches", {
+  result <- sapply(oklch_examples, \(syn) from_css(syn, to = "name", fallback = "none"))
   expect_equal(unname(result[1]), "red")
   expect_true(all(is.na(result[-1])))
 })
 
-test_that("oklch -> hex -> name matches oklch -> name (fallback=FALSE)", {
+test_that("oklch -> hex -> name matches oklch -> name (fallback=none)", {
   hex_result <- sapply(oklch_examples, \(syn) from_css(syn, to = "hex"))
-  roundtrip_names <- hex_to_name(unname(hex_result), fallback = FALSE)
-  direct_names <- sapply(oklch_examples, \(syn) from_css(syn, to = "name", fallback = FALSE))
+  roundtrip_names <- hex_to_name(unname(hex_result), fallback = "none")
+  direct_names <- sapply(oklch_examples, \(syn) from_css(syn, to = "name", fallback = "none"))
   expect_equal(unname(roundtrip_names), unname(direct_names))
 })
 
-test_that("oklch -> name with fallback=TRUE returns closest names", {
+test_that("oklch -> name with fallback=all returns closest names", {
   result <- suppressWarnings(
     sapply(oklch_examples, \(syn) from_css(syn, to = "name"))
   )
@@ -241,15 +241,15 @@ test_that("hex -> hex: 8-digit hex drops alpha", {
   expect_equal(from_css("#FF573380", to = "hex"), "#ff5733")
 })
 
-test_that("hex -> name with fallback=FALSE", {
-  result <- sapply(hex_examples, \(syn) from_css(syn, to = "name", fallback = FALSE))
+test_that("hex -> name with fallback=none", {
+  result <- sapply(hex_examples, \(syn) from_css(syn, to = "name", fallback = "none"))
   expect_true(is.na(result[["#FF5733"]]))
   expect_equal(unname(result[["#0F0"]]), "green")
   expect_true(is.na(result[["#FF573380"]]))
   expect_equal(unname(result[["#123456"]]), "Incremental Blue")
 })
 
-test_that("hex -> name with fallback=TRUE", {
+test_that("hex -> name with fallback=all", {
   result <- suppressWarnings(
     sapply(hex_examples, \(syn) from_css(syn, to = "name"))
   )
@@ -305,15 +305,15 @@ test_that("rgb -> rgb returns matrix for multiple inputs", {
   expect_equal(ncol(result), length(rgb_examples))
 })
 
-test_that("rgb -> name with fallback=FALSE", {
-  result <- sapply(rgb_examples, \(syn) from_css(syn, to = "name", fallback = FALSE))
+test_that("rgb -> name with fallback=none", {
+  result <- sapply(rgb_examples, \(syn) from_css(syn, to = "name", fallback = "none"))
   expect_true(is.na(result[["rgb(255 87 51)"]]))
   expect_equal(unname(result[["rgba(0, 255, 0, 0.5)"]]), "green")
   expect_true(is.na(result[["rgb(100% 34% 20%)"]]))
   expect_equal(unname(result[["rgb(18 52 86 / 80%)"]]), "Incremental Blue")
 })
 
-test_that("rgb -> name with fallback=TRUE", {
+test_that("rgb -> name with fallback=all", {
   result <- suppressWarnings(
     sapply(rgb_examples, \(syn) from_css(syn, to = "name"))
   )
@@ -368,12 +368,12 @@ test_that("oklab -> oklab returns matrix for multiple inputs", {
   expect_equal(ncol(result), length(oklab_examples))
 })
 
-test_that("oklab -> name with fallback=FALSE returns all NA", {
-  result <- sapply(oklab_examples, \(syn) from_css(syn, to = "name", fallback = FALSE))
+test_that("oklab -> name with fallback=none returns all NA", {
+  result <- sapply(oklab_examples, \(syn) from_css(syn, to = "name", fallback = "none"))
   expect_true(all(is.na(result)))
 })
 
-test_that("oklab -> name with fallback=TRUE returns closest names", {
+test_that("oklab -> name with fallback=all returns closest names", {
   result <- suppressWarnings(
     sapply(oklab_examples, \(syn) from_css(syn, to = "name"))
   )
@@ -421,13 +421,13 @@ test_that("hsl -> hsl returns matrix for multiple inputs", {
   expect_equal(ncol(result), length(hsl_examples))
 })
 
-test_that("hsl -> name with fallback=FALSE", {
-  result <- sapply(hsl_examples, \(syn) from_css(syn, to = "name", fallback = FALSE))
+test_that("hsl -> name with fallback=none", {
+  result <- sapply(hsl_examples, \(syn) from_css(syn, to = "name", fallback = "none"))
   expect_true(is.na(result[["hsl(14 100% 60%)"]]))
   expect_equal(unname(result[["hsla(120, 100%, 50%, 0.5)"]]), "green")
 })
 
-test_that("hsl -> name with fallback=TRUE", {
+test_that("hsl -> name with fallback=all", {
   result <- suppressWarnings(
     sapply(hsl_examples, \(syn) from_css(syn, to = "name"))
   )

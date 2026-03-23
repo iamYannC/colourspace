@@ -102,20 +102,25 @@ oklab_to_hex <- function(oklab) {
 #' Convert HEX to colour name
 #'
 #' Reverse lookup using the bundled name database. When an exact match is not
-#' found, you can return the nearest named colour (`fallback = TRUE`, the
-#' default) or `NA` (`fallback = FALSE`).
+#' found, behaviour depends on `fallback`:
+#'
+#' \describe{
+#'   \item{`"all"`}{(default) Return the closest named colour from the full
+#'     31 000+ colour database.}
+#'   \item{`"r"`}{Always return the nearest R built-in colour
+#'     (from [grDevices::colors()]). Useful when the result will be used in
+#'     base-R or ggplot2 plotting functions.}
+#'   \item{`"none"`}{Return `NA` for colours without an exact name match.}
+#' }
 #'
 #' @param hex Character vector of hex colour strings.
-#' @param fallback `TRUE` (default) to return the nearest named colour when
-#'   no exact match exists, or `FALSE` to return `NA`.
-#' @param distance Distance metric for nearest-colour fallback: one of `"lab"`
-#'   (default), `"oklch"`, `"rgb"`, or `"hsl"`.
+#' @param fallback One of `"all"` (default), `"r"`, or `"none"`.
 #' @return Character vector of colour names (or `NA`).
 #' @examples
 #' hex_to_name("#c93f38")
-#' hex_to_name("#111114", fallback = TRUE)
+#' hex_to_name("#111114", fallback = "all")
+#' hex_to_name("#ff5733", fallback = "r")
 #' @export
-hex_to_name <- function(hex, fallback = TRUE,
-                        distance = c("lab", "oklch", "rgb", "hsl")) {
-  convert_colourspace(hex, from = "hex", to = "name", fallback = fallback, distance = distance)
+hex_to_name <- function(hex, fallback = c("all", "r", "none")) {
+  convert_colourspace(hex, from = "hex", to = "name", fallback = fallback)
 }

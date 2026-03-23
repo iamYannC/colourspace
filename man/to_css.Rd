@@ -9,8 +9,7 @@ to_css(
   from = NULL,
   to = c("oklch", "oklab", "rgb", "hsl", "hex"),
   alpha = 1,
-  fallback = TRUE,
-  distance = c("lab", "oklch", "rgb", "hsl")
+  fallback = c("all", "r", "none")
 )
 }
 \arguments{
@@ -29,14 +28,8 @@ vs \code{"name"} for character inputs.}
 \item{alpha}{Alpha channel as numbers in \verb{[0, 1]}. Recycled to match the
 number of colours.}
 
-\item{fallback}{Behaviour when \code{from = "name"} (via
-\code{\link[=convert_colourspace]{convert_colourspace()}}/\code{\link[=name_to_hex]{name_to_hex()}}) or when generating names
-elsewhere. \code{TRUE} (default) returns the closest named colour;
-\code{FALSE} returns \code{NA}. Included for API consistency with
-\code{\link[=convert_colourspace]{convert_colourspace()}}.}
-
-\item{distance}{Distance metric used for nearest-name fallback when
-applicable. Included for API consistency with \code{\link[=convert_colourspace]{convert_colourspace()}}.}
+\item{fallback}{Passed to \code{\link[=convert_colourspace]{convert_colourspace()}}. One of \code{"all"}
+(default), \code{"r"}, or \code{"none"}.}
 }
 \value{
 A character vector of CSS colors.
