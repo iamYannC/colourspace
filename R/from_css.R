@@ -173,6 +173,13 @@ parse_css_components <- function(parts, space, original) {
 
   for (i in 1:3) {
     val_str <- parts[i]
+
+    # CSS Color 4 "none" keyword: missing component, treat as 0.
+    if (tolower(val_str) == "none") {
+      values[i] <- 0
+      next
+    }
+
     is_pct <- grepl("%$", val_str)
 
     if (is_pct) {

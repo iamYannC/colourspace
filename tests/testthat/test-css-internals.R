@@ -32,20 +32,28 @@ test_that("normalize_css_alpha validates and recycles", {
 })
 
 test_that("fmt_css_number and fmt_css_percent are stable", {
+  # Explicit digits argument still works
   expect_equal(colourspace:::fmt_css_number(1.23456, 3), "1.235")
   expect_equal(colourspace:::fmt_css_number(1, 3), "1")
   expect_equal(colourspace:::fmt_css_percent(12.3, 3), "12.3%")
+  # Default is now 4 decimals
+  expect_equal(colourspace:::fmt_css_number(1.23456), "1.2346")
+  expect_equal(colourspace:::fmt_css_percent(12.34567), "12.3457%")
 })
 
 test_that("format_css_* helpers emit modern functional syntax", {
-  expect_equal(colourspace:::format_css_rgb(c(255, 0, 0), alpha = 1), "rgb(255 0 0 / 1)")
-  expect_equal(colourspace:::format_css_hsl(c(0, 100, 50), alpha = 1), "hsl(0 100% 50% / 1)")
+  expect_equal(colourspace:::format_css_rgb(c(255, 0, 0), alpha = 1), "rgb(255 0 0)")
+  expect_equal(colourspace:::format_css_hsl(c(0, 100, 50), alpha = 1), "hsl(0 100% 50%)")
   expect_equal(colourspace:::format_css_hex("#ff0000", alpha = 0.5), "#ff000080")
-  expect_equal(colourspace:::format_css_oklab(c(1, 0, 0), alpha = 1), "oklab(1 0 0 / 1)")
+  expect_equal(colourspace:::format_css_oklab(c(1, 0, 0), alpha = 1), "oklab(1 0 0)")
 
-  # Hue is canonicalised when chroma rounds to 0.
+  # Achromatic hue uses "none" when chroma rounds to 0.
   expect_equal(
     colourspace:::format_css_oklch(c(0.99999, 0, 274.031), alpha = 1),
-    "oklch(100% 0 0 / 1)"
+    "oklch(100% 0 none)"
   )
+
+  # Alpha is emitted when not 1
+  expect_equal(colourspace:::format_css_rgb(c(255, 0, 0), alpha = 0.5), "rgb(255 0 0 / 0.5)")
+  expect_equal(colourspace:::format_css_oklab(c(1, 0, 0), alpha = 0.5), "oklab(1 0 0 / 0.5)")
 })

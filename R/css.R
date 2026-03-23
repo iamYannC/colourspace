@@ -139,15 +139,20 @@ normalize_css_alpha <- function(alpha, n) {
   alpha
 }
 
-fmt_css_number <- function(x, digits = 3) {
+fmt_css_number <- function(x, digits = 4) {
   # Round to a fixed number of decimal places, then trim trailing zeros.
   x <- round(x, digits = digits)
   out <- format(x, trim = TRUE, scientific = FALSE)
   out
 }
 
-fmt_css_percent <- function(x, digits = 3) {
+fmt_css_percent <- function(x, digits = 4) {
   paste0(fmt_css_number(x, digits = digits), "%")
+}
+
+# Format alpha suffix: omit when fully opaque (CSS default).
+fmt_css_alpha <- function(alpha) {
+  ifelse(alpha == 1, "", paste0(" / ", fmt_css_number(alpha)))
 }
 
 format_css_oklch <- function(oklch, alpha) {
@@ -163,15 +168,19 @@ format_css_oklch <- function(oklch, alpha) {
   l[abs(l) < eps] <- 0
   l[abs(l - 1) < eps] <- 1
 
-  # Hue is undefined at C == 0; canonicalise to 0 when chroma rounds to 0.
-  h[round(c, 3) == 0] <- 0
+  # Hue is undefined when chroma is negligible; use CSS "none" keyword.
+  achromatic <- round(c, 3) == 0
+  h_str <- fmt_css_number(h)
+  h_str[achromatic] <- "none"
+  c_str <- fmt_css_number(c)
+  c_str[achromatic] <- "0"
 
   paste0(
     "oklch(",
-    fmt_css_percent(l * 100, 3), " ",
-    fmt_css_number(c, 3), " ",
-    fmt_css_number(h, 3),
-    " / ", fmt_css_number(alpha, 3),
+    fmt_css_percent(l * 100), " ",
+    c_str, " ",
+    h_str,
+    fmt_css_alpha(alpha),
     ")"
   )
 }
@@ -185,7 +194,7 @@ format_css_oklab <- function(oklab, alpha) {
   eps <- 1e-4
   l[abs(l) < eps] <- 0
   l[abs(l - 1) < eps] <- 1
-  paste0("oklab(", fmt_css_number(l, 3), " ", fmt_css_number(a, 3), " ", fmt_css_number(b, 3), " / ", fmt_css_number(alpha, 3), ")")
+  paste0("oklab(", fmt_css_number(l), " ", fmt_css_number(a), " ", fmt_css_number(b), fmt_css_alpha(alpha), ")")
 }
 
 format_css_rgb <- function(rgb, alpha) {
@@ -193,7 +202,7 @@ format_css_rgb <- function(rgb, alpha) {
   r <- round(mat[, 1])
   g <- round(mat[, 2])
   b <- round(mat[, 3])
-  paste0("rgb(", r, " ", g, " ", b, " / ", fmt_css_number(alpha, 3), ")")
+  paste0("rgb(", r, " ", g, " ", b, fmt_css_alpha(alpha), ")")
 }
 
 format_css_hsl <- function(hsl, alpha) {
@@ -201,7 +210,7 @@ format_css_hsl <- function(hsl, alpha) {
   h <- mat[, 1]
   s <- mat[, 2]
   l <- mat[, 3]
-  paste0("hsl(", fmt_css_number(h, 3), " ", fmt_css_percent(s, 3), " ", fmt_css_percent(l, 3), " / ", fmt_css_number(alpha, 3), ")")
+  paste0("hsl(", fmt_css_number(h), " ", fmt_css_percent(s), " ", fmt_css_percent(l), fmt_css_alpha(alpha), ")")
 }
 
 format_css_hex <- function(hex, alpha) {
