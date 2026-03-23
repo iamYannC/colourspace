@@ -19,3 +19,5 @@
 ^README\.html$
 ^AGENTS\.md$
 ^\.github$
+^CRAN-SUBMISSION$
+^cran-comments\.md$
