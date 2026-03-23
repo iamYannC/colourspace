@@ -1,7 +1,7 @@
 Package: colourspace
 Title: Convert from One Colour Space to Another, Print a Ready-to-Paste Modern
     'CSS' Syntax
-Version: 0.0.1
+Version: 0.1.0
 Authors@R: c(
     person(
         given = "Yann",
