@@ -1,7 +1,5 @@
 # colourspace 0.1.1
 
-# colourspace 0.1.0
-
 ## CSS output accuracy
 
 - Numeric precision increased from 3 to 4 decimal places.

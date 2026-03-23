@@ -31,11 +31,11 @@ hex_to_rgb("#ff5733")
 
 # Get modern CSS output (oklch is the default)
 to_css("#ff5733")
-#> [1] "oklch(67.267% 0.208 37.377 / 1)"
+#> [1] "oklch(68.0325% 0.21 33.6745)"
 
 # With transparency
 to_css(c("coral", "teal"), alpha = 0.8)
-#> [1] "oklch(72.556% 0.159 40.856 / 0.8)" "oklch(54.305% 0.098 194.764 / 0.8)"
+#> [1] "oklch(73.5085% 0.1680 40.2249 / 0.8)" "oklch(54.3125% 0.0927 194.8078 / 0.8)"
 
 # Reverse lookup: hex to colour name
 hex_to_name("#c93f38")
@@ -43,16 +43,16 @@ hex_to_name("#c93f38")
 
 # Fallback to nearest named colour (default behaviour)
 hex_to_name("#a1b2c3")
-#> Warning: Fallback to nearest lab name for 1 colour(s).
-#> [1] "Cadet Grey"
+#> Warning: Fallback to nearest named colour for 1 colour(s).
+#> [1] "Blue Pot"
 
 # Disable fallback to get NA for unknown colours
-hex_to_name("#a1b2c3", fallback = FALSE)
+hex_to_name("#a1b2c3", fallback = "none")
 #> [1] NA
 
 # Low level function (great usecase for applying different spaces!)
-convert_colourspace(value = "f", from = "hex", to = "name")
-[1] "White"
+convert_colourspace(value = "ffffff", from = "hex", to = "name")
+#> [1] "white"
 ```
 
 ## Colour spaces

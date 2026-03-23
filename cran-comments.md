@@ -2,7 +2,7 @@
 
 0 errors | 0 warnings | 1 note
 
-* This is an update to version 0.1.1.
+* This is a first submission.
 
 ## Changes in this version
 
